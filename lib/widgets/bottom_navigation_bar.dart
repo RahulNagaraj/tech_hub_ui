@@ -27,7 +27,7 @@ class _BottomNavigationState extends State<BottomNavigation>
     List<Widget> _barItems = new List();
     for (var barItem in widget.navigationBarItems) {
       bool _isSelected = barItem.index == widget.selectedBarIndex;
-      _barItems.add(GestureDetector(
+      _barItems.add(InkWell(
         onTap: () {
           widget.onBottomBarItemTap(barItem.index);
         },

@@ -20,7 +20,7 @@ class Styles {
                     fontWeight: FontWeight.bold))),
         textTheme: TextTheme(
             headline: TextStyle(
-                color: primaryTextColor,
+                color: Colors.black,
                 fontSize: 32.0,
                 fontWeight: FontWeight.w700),
             title: TextStyle(
@@ -29,10 +29,10 @@ class Styles {
                 fontWeight: FontWeight.w700),
             subhead: TextStyle(
                 color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w400),
+                fontSize: 22.0,
+                fontWeight: FontWeight.w600),
             subtitle: TextStyle(
-                color: greyTextColor,
+                color: Colors.white,
                 fontSize: 16.0,
                 fontWeight: FontWeight.w600),
             body2: TextStyle(
