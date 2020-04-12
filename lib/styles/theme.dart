@@ -7,6 +7,7 @@ class Styles {
     return ThemeData(
         brightness: Brightness.light,
         backgroundColor: backgroundColor,
+        scaffoldBackgroundColor: backgroundColor,
         fontFamily: 'Raleway',
         primaryColor: backgroundColor,
         appBarTheme: AppBarTheme(
@@ -37,6 +38,10 @@ class Styles {
             body2: TextStyle(
                 color: greyTextColor,
                 fontSize: 16.0,
-                fontWeight: FontWeight.w400)));
+                fontWeight: FontWeight.w400),
+            caption: TextStyle(
+                color: Colors.black,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500)));
   }
 }
