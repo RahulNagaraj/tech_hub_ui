@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../models/discover_tag.dart';
 import '../models/nativation_bar_item.dart';
 import '../styles/colors.dart';
 import '../widgets/bottom_navigation_bar.dart';
+import '../widgets/discover_tag.dart';
 import '../widgets/event_card.dart';
 import '../widgets/heading.dart';
 
@@ -49,6 +51,26 @@ class _HomePageState extends State<HomePage> {
         }
       }
       return _eventCards;
+    }
+
+    List<Widget> _buildDiscoverTags() {
+      List<Widget> _discoverTags = new List();
+      for (var tag in tags) {
+        _discoverTags.add(
+          DiscoverTag(
+            tag: tag,
+            deviceWidth: _deviceWidth,
+          ),
+        );
+        if (tag.id != tags.length) {
+          _discoverTags.add(
+            SizedBox(
+              width: 12.0,
+            ),
+          );
+        }
+      }
+      return _discoverTags;
     }
 
     return Scaffold(
@@ -103,10 +125,26 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              Container(
-                width: 400,
-                height: 400,
-                color: Colors.blue,
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Heading(heading: 'Discover'),
+                    ),
+                  ],
+                ),
+              ),
+              SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    children: _buildDiscoverTags(),
+                  ),
+                ),
               ),
               Container(
                 width: 400,
