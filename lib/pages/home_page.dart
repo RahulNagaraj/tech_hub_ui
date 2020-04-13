@@ -103,10 +103,26 @@ class _HomePageState extends State<HomePage> {
                       flex: 2,
                       child: IconButton(
                         splashColor: Colors.transparent,
-                        icon: Icon(
-                          Icons.filter_list,
-                          color: tertiaryTextColor,
-                          size: 28.0,
+                        icon: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white54,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.15),
+                                offset: Offset(2.0, 2.0),
+                                blurRadius: 1.0,
+                                spreadRadius: 1.0,
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6.0, vertical: 3.0),
+                          child: Icon(
+                            Icons.filter_list,
+                            color: tertiaryTextColor,
+                            size: 28.0,
+                          ),
                         ),
                         onPressed: () {},
                       ),
