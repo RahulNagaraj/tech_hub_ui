@@ -7,14 +7,16 @@ class EventCard extends StatelessWidget {
   final double deviceHeight;
   final String title;
   final String subTitle;
+  final LinearGradient gradient;
 
-  const EventCard(
-      {Key key,
-      this.deviceWidth,
-      this.deviceHeight,
-      @required this.title,
-      @required this.subTitle})
-      : assert(title != null),
+  const EventCard({
+    Key key,
+    this.deviceWidth,
+    this.deviceHeight,
+    @required this.title,
+    @required this.subTitle,
+    this.gradient,
+  })  : assert(title != null),
         assert(subTitle != null),
         super(key: key);
 
@@ -24,10 +26,7 @@ class EventCard extends StatelessWidget {
       width: deviceWidth * 0.85,
       height: deviceHeight * 0.40,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [secondaryTextColor, tertiaryTextColor],
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft),
+        gradient: gradient,
         borderRadius: BorderRadius.circular(25.0),
         boxShadow: [
           BoxShadow(
