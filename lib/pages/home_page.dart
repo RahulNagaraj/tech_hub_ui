@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                           child: Icon(
                             Icons.filter_list,
                             color: tertiaryTextColor,
-                            size: 28.0,
+                            size: 24.0,
                           ),
                         ),
                         onPressed: () {},
@@ -162,11 +162,49 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              Container(
-                width: 400,
-                height: 400,
-                color: Colors.green,
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 8,
+                      child: Heading(heading: 'Upcoming'),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: IconButton(
+                        splashColor: Colors.transparent,
+                        icon: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white54,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.15),
+                                offset: Offset(2.0, 2.0),
+                                blurRadius: 1.0,
+                                spreadRadius: 1.0,
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6.0, vertical: 3.0),
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: tertiaryTextColor,
+                            size: 24.0,
+                          ),
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Text('upcoming...'),
+              )
             ],
           ),
         ),
