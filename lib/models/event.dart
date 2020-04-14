@@ -150,9 +150,9 @@ class Event {
 }
 
 class EventDetailsArguments {
-  final String eventId;
+  final Event event;
 
-  EventDetailsArguments({@required this.eventId}) : assert(eventId != null);
+  EventDetailsArguments({@required this.event}) : assert(event != null);
 }
 
 final List<Event> allEvents = [

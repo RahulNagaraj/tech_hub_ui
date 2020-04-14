@@ -25,7 +25,7 @@ class EventCard extends StatelessWidget {
         Navigator.pushNamed(
           context,
           EVENT_DETAILS_ROUTE,
-          arguments: EventDetailsArguments(eventId: event.id),
+          arguments: EventDetailsArguments(event: event),
         );
       },
       splashColor: Colors.transparent,
@@ -59,7 +59,9 @@ class EventCard extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 4.0),
+                      horizontal: 20.0,
+                      vertical: 4.0,
+                    ),
                     child: Text(
                       new DateFormat.MMMEd().format(event.date),
                       style: Theme.of(context).textTheme.subtitle,
