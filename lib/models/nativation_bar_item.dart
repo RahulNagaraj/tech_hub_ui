@@ -8,12 +8,12 @@ class NavigationBarItem {
   final IconData iconData;
   final Color color;
 
-  NavigationBarItem(
-      {@required this.index,
-      @required this.title,
-      @required this.iconData,
-      @required this.color})
-      : assert(index != null),
+  NavigationBarItem({
+    @required this.index,
+    @required this.title,
+    @required this.iconData,
+    @required this.color,
+  })  : assert(index != null),
         assert(title != null),
         assert(iconData != null),
         assert(color != null);
@@ -21,7 +21,11 @@ class NavigationBarItem {
 
 final List<NavigationBarItem> navigationBarItems = [
   NavigationBarItem(
-      index: 0, title: 'Home', iconData: Icons.home, color: tertiaryTextColor),
+    index: 0,
+    title: 'Home',
+    iconData: Icons.home,
+    color: tertiaryTextColor,
+  ),
   NavigationBarItem(
       index: 1,
       title: 'Search',

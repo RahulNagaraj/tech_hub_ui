@@ -8,12 +8,15 @@ class BottomNavigation extends StatefulWidget {
   final Function onBottomBarItemTap;
   final List<NavigationBarItem> navigationBarItems;
 
-  const BottomNavigation(
-      {Key key,
-      @required this.selectedBarIndex,
-      @required this.onBottomBarItemTap,
-      @required this.navigationBarItems})
-      : super(key: key);
+  const BottomNavigation({
+    Key key,
+    @required this.selectedBarIndex,
+    @required this.onBottomBarItemTap,
+    @required this.navigationBarItems,
+  })  : assert(selectedBarIndex != null),
+        assert(onBottomBarItemTap != null),
+        assert(navigationBarItems != null),
+        super(key: key);
 
   @override
   _BottomNavigationState createState() => _BottomNavigationState();
@@ -27,38 +30,44 @@ class _BottomNavigationState extends State<BottomNavigation>
     List<Widget> _barItems = new List();
     for (var barItem in widget.navigationBarItems) {
       bool _isSelected = barItem.index == widget.selectedBarIndex;
-      _barItems.add(InkWell(
-        onTap: () {
-          widget.onBottomBarItemTap(barItem.index);
-        },
-        child: AnimatedContainer(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          duration: duration,
-          decoration: BoxDecoration(
+      _barItems.add(
+        InkWell(
+          onTap: () {
+            widget.onBottomBarItemTap(barItem.index);
+          },
+          child: AnimatedContainer(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
+            duration: duration,
+            decoration: BoxDecoration(
               color: _isSelected ? tertiaryTintColor : Colors.transparent,
-              borderRadius: BorderRadius.all(Radius.circular(30))),
-          child: Row(
-            children: <Widget>[
-              Icon(
-                barItem.iconData,
-                color: _isSelected ? tertiaryTextColor : greyTextColor,
-                size: 24.0,
+              borderRadius: BorderRadius.all(
+                Radius.circular(30),
               ),
-              SizedBox(
-                width: 10,
-              ),
-              AnimatedSize(
+            ),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  barItem.iconData,
+                  color: _isSelected ? tertiaryTextColor : greyTextColor,
+                  size: 24.0,
+                ),
+                AnimatedSize(
                   duration: duration,
                   curve: Curves.easeInOutBack,
                   vsync: this,
                   child: Text(
                     _isSelected ? barItem.title : '',
                     style: Theme.of(context).textTheme.caption,
-                  ))
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ));
+      );
     }
     return _barItems;
   }
@@ -71,7 +80,6 @@ class _BottomNavigationState extends State<BottomNavigation>
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Row(
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: _buildBarItems(context),
         ),

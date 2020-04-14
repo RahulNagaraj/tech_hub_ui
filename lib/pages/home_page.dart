@@ -1,28 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../models/discover_tag.dart';
-import '../models/nativation_bar_item.dart';
 import '../styles/colors.dart';
-import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/circular_icon_button.dart';
 import '../widgets/discover_tag.dart';
 import '../widgets/event_card.dart';
 import '../widgets/heading.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _selectedBarIndex = 0;
-
-  void _onBottomBarItemTap(index) {
-    setState(() {
-      _selectedBarIndex = index;
-    });
-  }
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double _deviceWidth = MediaQuery.of(context).size.width;
@@ -167,11 +152,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigation(
-        navigationBarItems: navigationBarItems,
-        selectedBarIndex: _selectedBarIndex,
-        onBottomBarItemTap: _onBottomBarItemTap,
       ),
     );
   }

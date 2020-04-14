@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'pages/home_page.dart';
-import 'styles/theme.dart';
+import './app.dart';
+import './styles/theme.dart';
 
 void main() => runApp(TechHub());
 
@@ -12,7 +12,7 @@ class TechHub extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tech Hub',
       theme: Styles.themeData(),
-      home: HomePage(),
+      home: App(),
     );
   }
 }
