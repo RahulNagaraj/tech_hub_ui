@@ -40,7 +40,9 @@ class EventDetailsPage extends StatelessWidget {
                     top: 36.0,
                     left: 8.0,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       icon: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -92,6 +94,33 @@ class EventDetailsPage extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          ),
+          DefaultTabController(
+            length: 3,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  constraints: BoxConstraints.expand(height: 50),
+                  child: TabBar(
+                    tabs: <Widget>[
+                      Tab(text: 'About'),
+                      Tab(text: 'Speakers'),
+                      Tab(text: 'Feed'),
+                    ],
+                  ),
+                ),
+                Container(
+                  constraints: BoxConstraints.expand(height: 50),
+                  child: TabBarView(
+                    children: <Widget>[
+                      Container(child: Text(args.event.description)),
+                      Container(child: Text(args.event.speaker[0].firstName)),
+                      Container(child: Text('Upcoming')),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         ],
