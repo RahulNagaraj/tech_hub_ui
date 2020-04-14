@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../models/discover_tag.dart';
 import '../models/event.dart';
 import '../styles/colors.dart';
+import '../utils/constants.dart';
 import '../widgets/circular_icon_button.dart';
 import '../widgets/discover_tag.dart';
 import '../widgets/event_card.dart';
@@ -65,7 +66,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Home'),
+        title: Text(HOME_PAGE_APP_BAR_TITLE),
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(30.0),

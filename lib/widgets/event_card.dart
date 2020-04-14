@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../models/event.dart';
 import '../styles/colors.dart';
+import '../utils/constants.dart';
 
 class EventCard extends StatelessWidget {
   final double deviceWidth;
@@ -27,7 +29,11 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/event_details');
+        Navigator.pushNamed(
+          context,
+          EVENT_DETAILS_ROUTE,
+          arguments: EventDetailsArguments(eventId: eventId),
+        );
       },
       splashColor: Colors.transparent,
       child: Container(

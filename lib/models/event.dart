@@ -149,6 +149,12 @@ class Event {
         assert(organizers != null);
 }
 
+class EventDetailsArguments {
+  final String eventId;
+
+  EventDetailsArguments({@required this.eventId}) : assert(eventId != null);
+}
+
 final List<Event> allEvents = [
   new Event(
     id: 'aaaa1234567895454979',
@@ -218,7 +224,7 @@ final List<Event> allEvents = [
     ],
   ),
   new Event(
-    id: 'aaaa1234567895454789',
+    id: 'bbbb1234567895454789',
     title: 'VoltEdge 3 2 1',
     description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Blandit turpis cursus in hac habitasse platea dictumst quisque sagittis. Faucibus in ornare quam viverra. Rhoncus dolor purus non enim.',

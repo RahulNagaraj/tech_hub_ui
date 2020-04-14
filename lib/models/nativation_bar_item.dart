@@ -27,18 +27,21 @@ final List<NavigationBarItem> navigationBarItems = [
     color: tertiaryTextColor,
   ),
   NavigationBarItem(
-      index: 1,
-      title: 'Search',
-      iconData: Icons.search,
-      color: tertiaryTextColor),
+    index: 1,
+    title: 'Search',
+    iconData: Icons.search,
+    color: tertiaryTextColor,
+  ),
   NavigationBarItem(
-      index: 2,
-      title: 'Favorites',
-      iconData: Icons.favorite,
-      color: tertiaryTextColor),
+    index: 2,
+    title: 'Favorites',
+    iconData: Icons.favorite,
+    color: tertiaryTextColor,
+  ),
   NavigationBarItem(
-      index: 3,
-      title: 'Profile',
-      iconData: Icons.person,
-      color: tertiaryTextColor)
+    index: 3,
+    title: 'Profile',
+    iconData: Icons.person,
+    color: tertiaryTextColor,
+  ),
 ];
