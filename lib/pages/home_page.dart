@@ -25,6 +25,7 @@ class HomePage extends StatelessWidget {
             deviceWidth: _deviceWidth,
             deviceHeight: _deviceHeight,
             title: event.title,
+            eventId: event.id,
             subTitle: new DateFormat.MMMEd().format(event.date),
             gradient: gradient[i],
           ),
@@ -150,7 +151,7 @@ class HomePage extends StatelessWidget {
                 child: Text(
                   'upcoming...',
                 ),
-              )
+              ),
             ],
           ),
         ),
