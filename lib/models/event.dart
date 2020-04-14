@@ -202,6 +202,7 @@ final List<Event> allEvents = [
     date: new DateTime(2020, 4, 20),
     startTime: new DateTime(2020, 4, 20, 8, 30),
     endTime: new DateTime(2020, 4, 20, 16, 30),
+    image: 'assets/images/events/event_02.jpg',
     speaker: [
       new Speaker(
         id: 'aacaseq12345489',
@@ -239,6 +240,7 @@ final List<Event> allEvents = [
         phone: [001234578],
       ),
     ),
+    image: 'assets/images/events/event_03.jpg',
     keyHighlights: [
       new KeyHighlight(
         firstName: 'Rahul',

@@ -15,21 +15,3 @@ final LinearGradient event1 = LinearGradient(
   begin: Alignment.topRight,
   end: Alignment.bottomLeft,
 );
-
-final LinearGradient event2 = LinearGradient(
-  colors: [tertiaryTextColor, brownTextColor],
-  begin: Alignment.topRight,
-  end: Alignment.bottomRight,
-);
-
-final LinearGradient event3 = LinearGradient(
-  colors: [secondaryTextColor, tertiaryTextColor],
-  begin: Alignment.topLeft,
-  end: Alignment.topRight,
-);
-
-final LinearGradient event4 = LinearGradient(
-  colors: [secondaryTextColor, tertiaryTextColor],
-  begin: Alignment.topRight,
-  end: Alignment.bottomLeft,
-);

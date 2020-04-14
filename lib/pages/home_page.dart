@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../models/discover_tag.dart';
 import '../models/event.dart';
-import '../styles/colors.dart';
 import '../utils/constants.dart';
 import '../widgets/circular_icon_button.dart';
 import '../widgets/discover_tag.dart';
@@ -18,17 +16,13 @@ class HomePage extends StatelessWidget {
 
     List<Widget> _buildEventCards() {
       List<Widget> _eventCards = new List();
-      final List<LinearGradient> gradient = [event1, event2, event3];
       for (int i = 0; i < allEvents.length; i++) {
         Event event = allEvents[i];
         _eventCards.add(
           EventCard(
             deviceWidth: _deviceWidth,
             deviceHeight: _deviceHeight,
-            title: event.title,
-            eventId: event.id,
-            subTitle: new DateFormat.MMMEd().format(event.date),
-            gradient: gradient[i],
+            event: event,
           ),
         );
         // So that we don't add extra width of 16 px to the last card

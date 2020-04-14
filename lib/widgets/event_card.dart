@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../models/event.dart';
 import '../styles/colors.dart';
@@ -7,22 +8,14 @@ import '../utils/constants.dart';
 class EventCard extends StatelessWidget {
   final double deviceWidth;
   final double deviceHeight;
-  final String title;
-  final String subTitle;
-  final String eventId;
-  final LinearGradient gradient;
+  final Event event;
 
   const EventCard({
     Key key,
     this.deviceWidth,
     this.deviceHeight,
-    @required this.eventId,
-    @required this.title,
-    @required this.subTitle,
-    this.gradient,
-  })  : assert(title != null),
-        assert(subTitle != null),
-        assert(eventId != null),
+    @required this.event,
+  })  : assert(event != null),
         super(key: key);
 
   @override
@@ -32,7 +25,7 @@ class EventCard extends StatelessWidget {
         Navigator.pushNamed(
           context,
           EVENT_DETAILS_ROUTE,
-          arguments: EventDetailsArguments(eventId: eventId),
+          arguments: EventDetailsArguments(eventId: event.id),
         );
       },
       splashColor: Colors.transparent,
@@ -40,8 +33,12 @@ class EventCard extends StatelessWidget {
         width: deviceWidth * 0.85,
         height: deviceHeight * 0.40,
         decoration: BoxDecoration(
-          gradient: gradient,
+          gradient: event1,
           borderRadius: BorderRadius.circular(25.0),
+          image: new DecorationImage(
+            image: new AssetImage(event.image),
+            fit: BoxFit.cover,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.grey,
@@ -64,7 +61,7 @@ class EventCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 4.0),
                     child: Text(
-                      subTitle,
+                      new DateFormat.MMMEd().format(event.date),
                       style: Theme.of(context).textTheme.subtitle,
                     ),
                   ),
@@ -72,7 +69,7 @@ class EventCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 8.0),
                     child: Text(
-                      title,
+                      event.title,
                       style: Theme.of(context).textTheme.subhead,
                     ),
                   ),
