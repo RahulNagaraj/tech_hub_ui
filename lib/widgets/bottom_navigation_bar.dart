@@ -78,7 +78,7 @@ class _BottomNavigationState extends State<BottomNavigation>
       elevation: 5.0,
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 25.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: _buildBarItems(context),
