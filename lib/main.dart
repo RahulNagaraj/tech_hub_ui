@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:techhubui/utils/constants.dart';
 
 import './app.dart';
+import './models/event.dart';
 import './pages/event_details.dart';
 import './styles/theme.dart';
+import './utils/constants.dart';
 
 void main() => runApp(TechHub());
 
@@ -14,8 +15,18 @@ class TechHub extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: APP_TITLE,
       theme: Styles.themeData(),
-      routes: {
-        EVENT_DETAILS_ROUTE: (context) => EventDetailsPage(),
+      onGenerateRoute: (settings) {
+        if (settings.name == EVENT_DETAILS_ROUTE) {
+          final EventDetailsArguments args = settings.arguments;
+          return MaterialPageRoute(
+            builder: (context) {
+              return EventDetailsPage(
+                event: args.event,
+              );
+            },
+          );
+        }
+        return null;
       },
       home: App(),
     );
