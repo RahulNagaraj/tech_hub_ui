@@ -9,6 +9,8 @@ final Color greyTextColor = Color(0xFFB9B8C7);
 final Color brownTextColor = Color(0xFF513C50);
 final Color darkBlueColor = Color(0xFF09125F);
 final Color lightOrangeColor = Color(0xFFC24E59);
+final Color tabTextColor = Color(0xFF2E88FF);
+final Color tabBackgroundColor = Color(0xFFECEBEE);
 
 final LinearGradient event1 = LinearGradient(
   colors: [secondaryTextColor, tertiaryTextColor],

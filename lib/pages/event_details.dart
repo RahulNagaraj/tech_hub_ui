@@ -98,29 +98,92 @@ class EventDetailsPage extends StatelessWidget {
           ),
           DefaultTabController(
             length: 3,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  constraints: BoxConstraints.expand(height: 50),
-                  child: TabBar(
-                    tabs: <Widget>[
-                      Tab(text: 'About'),
-                      Tab(text: 'Speakers'),
-                      Tab(text: 'Feed'),
-                    ],
-                  ),
+            child: SizedBox(
+              height: screenHeight * 0.45,
+              child: Container(
+                padding: const EdgeInsets.only(
+                  left: 20.0,
+                  right: 20.0,
+                  top: 20.0,
+                  bottom: 0.0,
                 ),
-                Container(
-                  constraints: BoxConstraints.expand(height: 50),
-                  child: TabBarView(
-                    children: <Widget>[
-                      Container(child: Text(args.event.description)),
-                      Container(child: Text(args.event.speaker[0].firstName)),
-                      Container(child: Text('Upcoming')),
-                    ],
-                  ),
-                )
-              ],
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: 37.0,
+                      child: Material(
+                        elevation: 0.0,
+                        borderRadius: BorderRadius.circular(30.0),
+                        color: tabBackgroundColor,
+                        child: TabBar(
+                          labelColor: tabTextColor,
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12.0,
+                            letterSpacing: 1.0,
+                          ),
+                          unselectedLabelStyle: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12.0,
+                            letterSpacing: 1.0,
+                          ),
+                          unselectedLabelColor: greyTextColor,
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          indicatorColor: Colors.transparent,
+                          indicator: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow: [
+                              BoxShadow(
+                                color: greyTextColor,
+                                offset: Offset(1.0, 1.0),
+                                spreadRadius: 1.0,
+                                blurRadius: 1.0,
+                              ),
+                            ],
+                            color: Colors.white,
+                          ),
+                          tabs: <Widget>[
+                            Tab(
+                              text: 'ABOUT',
+                            ),
+                            Tab(
+                              text: 'SPEAKERS',
+                            ),
+                            Tab(
+                              text: 'FEED',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        child: Container(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          height: screenHeight - 30,
+                          child: TabBarView(
+                            children: <Widget>[
+                              Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                        '${args.event.description} ${args.event.description} ${args.event.description} ${args.event.description} ${args.event.description} ${args.event.description} ${args.event.description} ${args.event.description} ${args.event.description} ${args.event.description}'),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                  child: Text(args.event.speaker[0].firstName)),
+                              Container(child: Text('Upcoming')),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
         ],
