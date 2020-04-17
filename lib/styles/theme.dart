@@ -29,6 +29,10 @@ class Styles {
             color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.w600),
         body2: TextStyle(
             color: greyTextColor, fontSize: 16.0, fontWeight: FontWeight.w400),
+        body1: TextStyle(
+            color: primaryTextColor,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w600),
         caption: TextStyle(
             color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.w500),
       ),
