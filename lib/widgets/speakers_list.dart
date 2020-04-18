@@ -3,9 +3,17 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../models/event.dart';
+import '../models/speaker.dart';
 import '../styles/colors.dart';
 
-class SpeakersList extends StatelessWidget {
+class SpeakerExpansion {
+  bool isExpanded;
+  final Speaker speaker;
+
+  SpeakerExpansion({this.isExpanded = false, @required this.speaker});
+}
+
+class SpeakersList extends StatefulWidget {
   final Event event;
   final String name;
 
@@ -13,6 +21,20 @@ class SpeakersList extends StatelessWidget {
       : assert(name != null),
         assert(event != null),
         super(key: key);
+
+  @override
+  _SpeakersListState createState() => _SpeakersListState();
+}
+
+class _SpeakersListState extends State<SpeakersList> {
+  final List<SpeakerExpansion> _speakerExpansion = new List();
+  @override
+  void initState() {
+    super.initState();
+    widget.event.speakers.forEach((Speaker speaker) {
+      _speakerExpansion.add(SpeakerExpansion(speaker: speaker));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +47,8 @@ class SpeakersList extends StatelessWidget {
         builder: (BuildContext context) {
           return CustomScrollView(
             physics: BouncingScrollPhysics(),
-            key: PageStorageKey<String>(name),
-            semanticChildCount: event.speakers.length,
+            key: PageStorageKey<String>(widget.name),
+            semanticChildCount: _speakerExpansion.length,
             slivers: <Widget>[
               SliverOverlapInjector(
                 handle:
@@ -52,7 +74,9 @@ class SpeakersList extends StatelessWidget {
                           alignment: Alignment.center,
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           decoration: BoxDecoration(
-                            color: speakerCardColor['expanded'],
+                            color: _speakerExpansion[itemIndex].isExpanded
+                                ? speakerCardColor['expanded']
+                                : speakerCardColor['collapsed'],
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                           child: Row(
@@ -66,7 +90,7 @@ class SpeakersList extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                        image: AssetImage(event.image),
+                                        image: AssetImage(widget.event.image),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -80,7 +104,9 @@ class SpeakersList extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          event.speakers[itemIndex].firstName,
+                                          _speakerExpansion[itemIndex]
+                                              .speaker
+                                              .firstName,
                                           style: Theme.of(context)
                                               .textTheme
                                               .subtitle
@@ -90,7 +116,9 @@ class SpeakersList extends StatelessWidget {
                                               ),
                                         ),
                                         Text(
-                                          event.speakers[itemIndex].designation,
+                                          _speakerExpansion[itemIndex]
+                                              .speaker
+                                              .designation,
                                           style: Theme.of(context)
                                               .textTheme
                                               .caption,
@@ -105,10 +133,20 @@ class SpeakersList extends StatelessWidget {
                                   IconButton(
                                     icon: Icon(
                                       Icons.arrow_drop_down_circle,
-                                      color: speakerCardColor['collapsed'],
+                                      color: _speakerExpansion[itemIndex]
+                                              .isExpanded
+                                          ? speakerCardColor['collapsed']
+                                          : speakerCardColor['expanded'],
                                       size: 28.0,
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        _speakerExpansion[itemIndex]
+                                                .isExpanded =
+                                            !_speakerExpansion[itemIndex]
+                                                .isExpanded;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
@@ -123,7 +161,7 @@ class SpeakersList extends StatelessWidget {
                       }
                       return null;
                     },
-                    childCount: math.max(0, event.speakers.length * 2 - 1),
+                    childCount: math.max(0, _speakerExpansion.length * 2 - 1),
                   ),
                 ),
               ),
