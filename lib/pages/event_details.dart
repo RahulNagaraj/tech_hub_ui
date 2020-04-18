@@ -4,6 +4,7 @@ import 'package:palette_generator/palette_generator.dart';
 
 import '../models/event.dart';
 import '../styles/colors.dart';
+import '../widgets/about_section.dart';
 
 class EventDetailsPage extends StatefulWidget {
   final Event event;
@@ -25,6 +26,11 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   void initState() {
     super.initState();
     _updatePaletteColor();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   Future<void> _updatePaletteColor() async {
@@ -52,7 +58,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    Widget buildFlexibleSpaceBar(bool innerBoxIsScrolled) {
+    Widget _buildFlexibleSpaceBar(bool innerBoxIsScrolled) {
       print(innerBoxIsScrolled);
       return FlexibleSpaceBar(
         stretchModes: <StretchMode>[
@@ -100,7 +106,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
       );
     }
 
-    Widget buildTabBar() {
+    Widget _buildTabBar() {
       return TabBar(
         indicatorSize: TabBarIndicatorSize.label,
         labelColor: tabTextColor,
@@ -124,7 +130,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
       );
     }
 
-    Widget buildSliverAppBar(bool innerBoxIsScrolled) {
+    Widget _buildSliverAppBar(bool innerBoxIsScrolled) {
       return SliverAppBar(
         backgroundColor: (paletteGenerator != null &&
                 paletteGenerator.lightMutedColor != null)
@@ -148,12 +154,13 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
             onPressed: () => {},
           ),
         ],
+        centerTitle: true,
         title: innerBoxIsScrolled
             ? Text(widget.event.title)
             : const Text(''), // This is the title in the app bar.
         pinned: true,
         expandedHeight: screenHeight * 0.55,
-        flexibleSpace: buildFlexibleSpaceBar(innerBoxIsScrolled),
+        flexibleSpace: _buildFlexibleSpaceBar(innerBoxIsScrolled),
         // The "forceElevated" property causes the SliverAppBar to show
         // a shadow. The "innerBoxIsScrolled" parameter is true when the
         // inner scroll view is scrolled beyond its "zero" point, i.e.
@@ -163,268 +170,33 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
         // not actually aware of the precise position of the inner
         // scroll views.
         forceElevated: innerBoxIsScrolled,
-        bottom: buildTabBar(),
+        bottom: _buildTabBar(),
       );
     }
 
-    Widget buildTabBarView() {
+    Widget _buildTabBarView() {
       return TabBarView(
         // These are the contents of the tab views, below the tabs.
         children: _tabs.map((String name) {
-          return SafeArea(
-            top: false,
-            bottom: false,
-            child: Builder(
-              // This Builder is needed to provide a BuildContext that is "inside"
-              // the NestedScrollView, so that sliverOverlapAbsorberHandleFor() can
-              // find the NestedScrollView.
-              builder: (BuildContext context) {
-                return CustomScrollView(
-                  physics: BouncingScrollPhysics(),
-                  // The "controller" and "primary" members should be left
-                  // unset, so that the NestedScrollView can control this
-                  // inner scroll view.
-                  // If the "controller" property is set, then this scroll
-                  // view will not be associated with the NestedScrollView.
-                  // The PageStorageKey should be unique to this ScrollView;
-                  // it allows the list to remember its scroll position when
-                  // the tab view is not on the screen.
-                  key: PageStorageKey<String>(name),
-                  slivers: <Widget>[
-                    SliverOverlapInjector(
-                      // This is the flip side of the SliverOverlapAbsorber above.
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-                      sliver: SliverList(
-                        delegate: SliverChildListDelegate(
-                          [
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.people,
-                                          size: 28.0,
-                                          color:
-                                              primaryTextColor.withOpacity(0.5),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 10.0,
-                                          ),
-                                          child: Text(
-                                            '200 Guests',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .body1
-                                                .copyWith(
-                                                    color: primaryTextColor
-                                                        .withOpacity(0.5)),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 8.0,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.location_on,
-                                          size: 28.0,
-                                          color:
-                                              primaryTextColor.withOpacity(0.5),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 10.0,
-                                          ),
-                                          child: Text(
-                                            widget
-                                                .event.locationDetails.address,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .body1
-                                                .copyWith(
-                                                  color: primaryTextColor
-                                                      .withOpacity(0.5),
-                                                ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 8.0,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.calendar_today,
-                                          size: 28.0,
-                                          color:
-                                              primaryTextColor.withOpacity(0.5),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 10.0,
-                                          ),
-                                          child: Text(
-                                            new DateFormat.MMMEd()
-                                                .format(widget.event.date),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .body1
-                                                .copyWith(
-                                                  color: primaryTextColor
-                                                      .withOpacity(0.5),
-                                                ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 20.0,
-                                      bottom: 16.0,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 4.0,
-                                          ),
-                                          child: Text(
-                                            'About the event',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .body2
-                                                .copyWith(
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: 4.0,
-                                          ),
-                                          child: Text(
-                                            widget.event.description,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .body2
-                                                .copyWith(
-                                                    fontSize: 18.0,
-                                                    color: primaryTextColor
-                                                        .withOpacity(0.5)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      bottom: 16.0,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Location',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .body2
-                                                .copyWith(
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 4.0),
-                                          child: Container(
-                                            color: Colors.blueGrey,
-                                            height: 250,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      bottom: 16.0,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 4.0,
-                                          ),
-                                          child: Text(
-                                            'Key Highlights',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .body2
-                                                .copyWith(
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 4.0),
-                                          child: Container(
-                                            color: Colors.blueGrey,
-                                            height: 250,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          );
+          if (name == _tabs[0]) {
+            return AboutSection(
+              name: name,
+              event: widget.event,
+            );
+          } else if (name == _tabs[1]) {
+            // TODO: Replace with Speakers list section
+            return AboutSection(
+              name: name,
+              event: widget.event,
+            );
+          } else if (name == _tabs[2]) {
+            // TODO: Replace with Survey section
+            return AboutSection(
+              name: name,
+              event: widget.event,
+            );
+          }
+          return null;
         }).toList(),
       );
     }
@@ -439,11 +211,11 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               SliverOverlapAbsorber(
                 handle:
                     NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                child: buildSliverAppBar(innerBoxIsScrolled),
+                child: _buildSliverAppBar(innerBoxIsScrolled),
               ),
             ];
           },
-          body: buildTabBarView(),
+          body: _buildTabBarView(),
         ),
       ),
     );
