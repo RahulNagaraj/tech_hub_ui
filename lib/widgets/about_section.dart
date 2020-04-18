@@ -70,11 +70,16 @@ class AboutSection extends StatelessWidget {
     }
 
     Widget _buildSectionHeader(String headerText) {
-      return Text(
-        headerText,
-        style: Theme.of(context).textTheme.body2.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            headerText,
+            style: Theme.of(context).textTheme.body2.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+        ],
       );
     }
 
@@ -241,29 +246,35 @@ class AboutSection extends StatelessWidget {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Today\'s ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle
-                                    .copyWith(
-                                      fontSize: 18.0,
-                                      color: Colors.black.withOpacity(0.6),
-                                    ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Today\'s ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle
+                                        .copyWith(
+                                          fontSize: 18.0,
+                                          color: Colors.black.withOpacity(0.6),
+                                        ),
+                                  ),
+                                  TextSpan(
+                                    text: 'Speakers',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption
+                                        .copyWith(
+                                            color:
+                                                Colors.black.withOpacity(0.6)),
+                                  ),
+                                ],
                               ),
-                              TextSpan(
-                                text: 'Speakers',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    .copyWith(
-                                        color: Colors.black.withOpacity(0.6)),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                       Container(
