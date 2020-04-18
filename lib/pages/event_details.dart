@@ -5,6 +5,7 @@ import 'package:palette_generator/palette_generator.dart';
 import '../models/event.dart';
 import '../styles/colors.dart';
 import '../widgets/about_section.dart';
+import '../widgets/speakers_list.dart';
 
 class EventDetailsPage extends StatefulWidget {
   final Event event;
@@ -184,7 +185,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
             );
           } else if (name == _tabs[1]) {
             // TODO: Replace with Speakers list section
-            return AboutSection(
+            return SpeakersList(
               name: name,
               event: widget.event,
             );

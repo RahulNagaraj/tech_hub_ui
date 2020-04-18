@@ -27,6 +27,11 @@ final List<Color> keyHighlightCardColors = [
   Color(0xFF6C63FF),
 ];
 
+final Map<String, Color> speakerCardColor = {
+  'expanded': Color(0xFFCFD1D3),
+  'collapsed': Color(0xFF6876EB)
+};
+
 final LinearGradient event1 = LinearGradient(
   colors: [secondaryTextColor, tertiaryTextColor],
   begin: Alignment.topRight,

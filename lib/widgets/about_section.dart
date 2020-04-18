@@ -134,8 +134,11 @@ class AboutSection extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: Container(
-                color: Colors.blueGrey,
                 height: 250,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30.0),
+                  color: Colors.black.withAlpha(50),
+                ),
               ),
             ),
           ],
