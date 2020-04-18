@@ -59,7 +59,6 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     Widget _buildFlexibleSpaceBar(bool innerBoxIsScrolled) {
-      print(innerBoxIsScrolled);
       return FlexibleSpaceBar(
         stretchModes: <StretchMode>[
           StretchMode.zoomBackground,

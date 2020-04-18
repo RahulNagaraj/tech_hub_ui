@@ -21,8 +21,20 @@ final MaterialColor shadesOfGrey = MaterialColor(0xFFB9B8C7, {
   400: Color(0xFFBDBCBD),
 });
 
+final List<Color> keyHighlightCardColors = [
+  Color(0xFFDEE2EA),
+  Color(0xFFFC6681),
+  Color(0xFF6C63FF),
+];
+
 final LinearGradient event1 = LinearGradient(
   colors: [secondaryTextColor, tertiaryTextColor],
   begin: Alignment.topRight,
   end: Alignment.bottomLeft,
+);
+
+final LinearGradient keyHighlightsGradient = LinearGradient(
+  colors: [Color(0xFFA0D8D9), Color(0xFFDEE2EA), Color(0xFFB5A4B1)],
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
 );

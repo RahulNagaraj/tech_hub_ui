@@ -176,7 +176,7 @@ final List<Event> allEvents = [
       new KeyHighlight(
         firstName: 'Rahul',
         lastName: 'N',
-        topic: 'Animate using Flutter',
+        topic: 'Flutter',
         place: 'Room 101',
         startTime: DateTime(2020, 4, 20, 11, 30),
         endTime: DateTime(2020, 4, 20, 12, 0),
@@ -184,7 +184,15 @@ final List<Event> allEvents = [
       new KeyHighlight(
         firstName: 'Amit',
         lastName: 'S',
-        topic: 'AI',
+        topic: 'Artificial Intelligence',
+        place: 'Room 101',
+        startTime: DateTime(2020, 4, 20, 11, 0),
+        endTime: DateTime(2020, 4, 20, 11, 30),
+      ),
+      new KeyHighlight(
+        firstName: 'Abhi',
+        lastName: 'K',
+        topic: 'Photography',
         place: 'Room 101',
         startTime: DateTime(2020, 4, 20, 11, 0),
         endTime: DateTime(2020, 4, 20, 11, 30),
@@ -245,7 +253,7 @@ final List<Event> allEvents = [
       new KeyHighlight(
         firstName: 'Rahul',
         lastName: 'N',
-        topic: 'Animate using Flutter',
+        topic: 'Flutter',
         place: 'Room 101',
         startTime: DateTime(2020, 4, 20, 11, 30),
         endTime: DateTime(2020, 4, 20, 12, 0),
@@ -253,7 +261,7 @@ final List<Event> allEvents = [
       new KeyHighlight(
         firstName: 'Amit',
         lastName: 'S',
-        topic: 'AI',
+        topic: 'Machine Learning',
         place: 'Room 101',
         startTime: DateTime(2020, 4, 20, 11, 0),
         endTime: DateTime(2020, 4, 20, 11, 30),

@@ -15,6 +15,8 @@ class AboutSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _deviceWidth = MediaQuery.of(context).size.width;
+
     Widget _buildSummary(IconData iconData, String text) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -136,7 +138,83 @@ class AboutSection extends StatelessWidget {
       );
     }
 
+    List<Widget> _buildKeyHighlightCard(double _containerWidth) {
+      List<Widget> cards = new List();
+      int keyHighlightLength = event.keyHighlights.length;
+      for (int i = 0; i < keyHighlightLength; i++) {
+        KeyHighlight keyHighlight = event.keyHighlights[i];
+        double left = 0 + (i * (0.90 * _containerWidth) / keyHighlightLength);
+        double width =
+            ((keyHighlightLength - i) / keyHighlightLength) * _containerWidth +
+                i *
+                    ((_containerWidth / keyHighlightLength) -
+                        0.9 * (_containerWidth / keyHighlightLength));
+        cards.add(
+          Positioned(
+            top: 0.0,
+            bottom: 0.0,
+            left: left,
+            child: Container(
+              width: width,
+              padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+              decoration: BoxDecoration(
+                color: keyHighlightCardColors[i],
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: 75,
+                    width: 75,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(
+                          event.image,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 2.0,
+                          horizontal: 4.0,
+                        ),
+                        child: Text(
+                          keyHighlight.firstName,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle
+                              .copyWith(color: Colors.black.withOpacity(0.6)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Text(
+                          keyHighlight.topic,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+      return cards;
+    }
+
     Widget _buildEventKeyHighlights() {
+      final _containerWidth = _deviceWidth - 40.0 - 32.0;
       return Padding(
         padding: const EdgeInsets.only(
           top: 20.0,
@@ -145,15 +223,60 @@ class AboutSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 4.0,
-                ),
+                padding: const EdgeInsets.only(bottom: 4.0),
                 child: _buildSectionHeader('Key Highlights')),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: Container(
-                color: Colors.blueGrey,
                 height: 250,
+                width: _deviceWidth,
+                decoration: BoxDecoration(
+                  gradient: keyHighlightsGradient,
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Today\'s ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle
+                                    .copyWith(
+                                      fontSize: 18.0,
+                                      color: Colors.black.withOpacity(0.6),
+                                    ),
+                              ),
+                              TextSpan(
+                                text: 'Speakers',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    .copyWith(
+                                        color: Colors.black.withOpacity(0.6)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 150,
+                        width: _containerWidth,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: _buildKeyHighlightCard(_containerWidth),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
