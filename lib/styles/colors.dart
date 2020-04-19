@@ -28,7 +28,7 @@ final List<Color> keyHighlightCardColors = [
 ];
 
 final Map<String, Color> speakerCardColor = {
-  'expanded': Color(0xFF6876EB),
+  'expanded': tabTextColor,
   'collapsed': Color(0xFFFFFFFF)
 };
 

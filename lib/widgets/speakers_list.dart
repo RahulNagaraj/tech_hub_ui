@@ -28,12 +28,18 @@ class SpeakersList extends StatefulWidget {
 
 class _SpeakersListState extends State<SpeakersList> {
   final List<SpeakerExpansion> _speakerExpansion = new List();
+
   @override
   void initState() {
     super.initState();
     widget.event.speakers.forEach((Speaker speaker) {
       _speakerExpansion.add(SpeakerExpansion(speaker: speaker));
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   List<Widget> _buildSpeakerTopicChips(BuildContext context, int index) {
@@ -46,7 +52,7 @@ class _SpeakersListState extends State<SpeakersList> {
           padding: const EdgeInsets.only(right: 8.0),
           child: Chip(
             label: Text(topic),
-            backgroundColor: Color(0xFFDDDDF7),
+            backgroundColor: tabTextColor.withOpacity(0.4),
           ),
         ),
       );
@@ -54,11 +60,178 @@ class _SpeakersListState extends State<SpeakersList> {
     return topicChips;
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildIconButton(bool isExpanded, int index) {
+    return Transform.rotate(
+      angle: isExpanded ? 180 * (math.pi / 180) : 0,
+      child: IconButton(
+        icon: Icon(
+          Icons.arrow_drop_down_circle,
+          color: isExpanded
+              ? speakerCardColor['collapsed']
+              : speakerCardColor['expanded'],
+          size: 32.0,
+        ),
+        onPressed: () {
+          setState(() {
+            _speakerExpansion[index].isExpanded =
+                !_speakerExpansion[index].isExpanded;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildExpandedRow(
+      double deviceHeight, double deviceWidth, int itemIndex) {
+    return Expanded(
+      child: Container(
+        height: deviceHeight * 0.1,
+        width: deviceWidth,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12.0,
+        ),
+        decoration: BoxDecoration(
+          color: speakerCardColor['collapsed'],
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(16.0),
+            bottomLeft: Radius.circular(16.0),
+          ),
+        ),
+        child: Row(
+          children: _buildSpeakerTopicChips(context, itemIndex),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSpeakerDesignation(int itemIndex) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 12.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 4.0,
+            ),
+            child: Text(
+              _speakerExpansion[itemIndex].speaker.firstName,
+              style: Theme.of(context).textTheme.subtitle.copyWith(
+                    fontSize: 18.0,
+                    color: Colors.black.withOpacity(0.7),
+                  ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 4.0,
+            ),
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: _speakerExpansion[itemIndex].speaker.company,
+                    style: Theme.of(context).textTheme.body2.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  TextSpan(text: ' '),
+                  TextSpan(
+                    text: _speakerExpansion[itemIndex].speaker.business,
+                    style: Theme.of(context).textTheme.body2.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSpeakerDetailsRow(int itemIndex) {
+    return Expanded(
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage(
+                  widget.event.image,
+                ),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          _buildSpeakerDesignation(itemIndex),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildExpandIconButton(int itemIndex) {
+    return Row(
+      children: <Widget>[
+        _buildIconButton(_speakerExpansion[itemIndex].isExpanded, itemIndex)
+      ],
+    );
+  }
+
+  Widget _buildSpeakerListItem(BuildContext context, int itemIndex) {
     final _deviceHeight = MediaQuery.of(context).size.height;
     final _deviceWidth = MediaQuery.of(context).size.width;
+    final BorderRadius _borderRadius = BorderRadius.circular(16.0);
 
+    return Material(
+      elevation: 4,
+      borderRadius: _borderRadius,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.fastOutSlowIn,
+        height: _speakerExpansion[itemIndex].isExpanded
+            ? 2 * _deviceHeight * 0.1
+            : _deviceHeight * 0.1,
+        decoration: BoxDecoration(
+          color: speakerCardColor['collapsed'],
+          borderRadius: _borderRadius,
+        ),
+        child: Column(
+          children: <Widget>[
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 650),
+              height: _deviceHeight * 0.1,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              decoration: BoxDecoration(
+                color: _speakerExpansion[itemIndex].isExpanded
+                    ? speakerCardColor['expanded']
+                    : speakerCardColor['collapsed'],
+                borderRadius: _borderRadius,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  _buildSpeakerDetailsRow(itemIndex),
+                  _buildExpandIconButton(itemIndex),
+                ],
+              ),
+            ),
+            if (_speakerExpansion[itemIndex].isExpanded)
+              _buildExpandedRow(_deviceHeight, _deviceWidth, itemIndex)
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       top: false,
       bottom: false,
@@ -85,149 +258,7 @@ class _SpeakersListState extends State<SpeakersList> {
                           color: Colors.transparent,
                         );
                       }
-                      return Material(
-                        elevation: 4,
-                        borderRadius: BorderRadius.circular(16.0),
-                        child: Container(
-                          height: _speakerExpansion[itemIndex].isExpanded
-                              ? 2 * _deviceHeight * 0.1
-                              : _deviceHeight * 0.1,
-                          decoration: BoxDecoration(
-                            color: speakerCardColor['collapsed'],
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          child: Stack(
-                            children: <Widget>[
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                bottom: _speakerExpansion[itemIndex].isExpanded
-                                    ? _deviceHeight * 0.1
-                                    : 0,
-                                right: 0,
-                                child: Container(
-                                  height: _deviceHeight * 0.1,
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        _speakerExpansion[itemIndex].isExpanded
-                                            ? speakerCardColor['expanded']
-                                            : speakerCardColor['collapsed'],
-                                    borderRadius: BorderRadius.circular(16.0),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          Container(
-                                            width: 60,
-                                            height: 60,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                    widget.event.image),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 12.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  _speakerExpansion[itemIndex]
-                                                      .speaker
-                                                      .firstName,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .subtitle
-                                                      .copyWith(
-                                                        color: Colors.black
-                                                            .withOpacity(0.7),
-                                                      ),
-                                                ),
-                                                Text(
-                                                  _speakerExpansion[itemIndex]
-                                                      .speaker
-                                                      .designation,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .caption,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          IconButton(
-                                            icon: Icon(
-                                              Icons.arrow_drop_down_circle,
-                                              color:
-                                                  _speakerExpansion[itemIndex]
-                                                          .isExpanded
-                                                      ? speakerCardColor[
-                                                          'collapsed']
-                                                      : speakerCardColor[
-                                                          'expanded'],
-                                              size: 28.0,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                _speakerExpansion[itemIndex]
-                                                        .isExpanded =
-                                                    !_speakerExpansion[
-                                                            itemIndex]
-                                                        .isExpanded;
-                                              });
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              if (_speakerExpansion[itemIndex].isExpanded)
-                                Positioned(
-                                  left: 0,
-                                  bottom: 0,
-                                  right: 0,
-                                  top: _deviceHeight * 0.1,
-                                  child: Container(
-                                    height: _deviceHeight * 0.1,
-                                    width: _deviceWidth,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: speakerCardColor['collapsed'],
-                                      borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(16.0),
-                                        bottomLeft: Radius.circular(16.0),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      children: _buildSpeakerTopicChips(
-                                          context, itemIndex),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      );
+                      return _buildSpeakerListItem(context, itemIndex);
                     },
                     semanticIndexCallback: (Widget widget, int localIndex) {
                       if (localIndex.isOdd) {

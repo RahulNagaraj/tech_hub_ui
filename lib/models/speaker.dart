@@ -9,6 +9,8 @@ class Speaker {
   final String email;
   final String avatar;
   final String designation;
+  final String company;
+  final String business;
   final List<String> topics;
   final List<String> hobbies;
   final List<Event> events;
@@ -23,6 +25,8 @@ class Speaker {
     @required this.topics,
     @required this.hobbies,
     @required this.events,
+    @required this.company,
+    this.business: '',
   })  : assert(id != null),
         assert(firstName != null),
         assert(lastName != null),
