@@ -29,77 +29,81 @@ class EventCard extends StatelessWidget {
         );
       },
       splashColor: Colors.transparent,
-      child: Material(
-        elevation: 8.0,
-        borderRadius: BorderRadius.circular(25.0),
-        child: Container(
-          width: deviceWidth * 0.85,
-          height: deviceHeight * 0.40,
-          decoration: BoxDecoration(
-            gradient: event1,
-            borderRadius: BorderRadius.circular(25.0),
-            image: new DecorationImage(
-              image: new AssetImage(event.image),
-              fit: BoxFit.cover,
-            ),
-            color: darkBlueColor,
-          ),
-          child: Stack(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                        vertical: 4.0,
-                      ),
-                      child: Text(
-                        new DateFormat.MMMEd().format(event.date),
-                        style: Theme.of(context).textTheme.subtitle,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 8.0),
-                      child: Text(
-                        event.title,
-                        style: Theme.of(context).textTheme.subhead,
-                      ),
-                    ),
-                    SizedBox(height: 30.0),
-                  ],
-                ),
+      child: Hero(
+        tag: event.title,
+        transitionOnUserGestures: true,
+        child: Material(
+          elevation: 8.0,
+          borderRadius: BorderRadius.circular(25.0),
+          child: Container(
+            width: deviceWidth * 0.85,
+            height: deviceHeight * 0.40,
+            decoration: BoxDecoration(
+              gradient: event1,
+              borderRadius: BorderRadius.circular(25.0),
+              image: new DecorationImage(
+                image: new AssetImage(event.image),
+                fit: BoxFit.cover,
               ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: ClipOval(
-                    child: Material(
-                      color:
-                          Color(0xFFFEEDF3).withOpacity(0.25), // button color
-                      child: InkWell(
-                        splashColor: Colors.transparent, // inkwell color
-                        child: SizedBox(
-                          width: 30,
-                          height: 30,
-                          child: Icon(
-                            Icons.favorite_border,
-                            color: Colors.white,
-                            size: 22.0,
-                          ),
+              color: darkBlueColor,
+            ),
+            child: Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                          vertical: 4.0,
                         ),
-                        onTap: () {},
+                        child: Text(
+                          new DateFormat.MMMEd().format(event.date),
+                          style: Theme.of(context).textTheme.subtitle,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 8.0),
+                        child: Text(
+                          event.title,
+                          style: Theme.of(context).textTheme.subhead,
+                        ),
+                      ),
+                      SizedBox(height: 30.0),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: ClipOval(
+                      child: Material(
+                        color:
+                            Color(0xFFFEEDF3).withOpacity(0.25), // button color
+                        child: InkWell(
+                          splashColor: Colors.transparent, // inkwell color
+                          child: SizedBox(
+                            width: 30,
+                            height: 30,
+                            child: Icon(
+                              Icons.favorite_border,
+                              color: Colors.white,
+                              size: 22.0,
+                            ),
+                          ),
+                          onTap: () {},
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

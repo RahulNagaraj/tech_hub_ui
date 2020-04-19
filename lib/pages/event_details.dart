@@ -201,21 +201,26 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
       );
     }
 
-    return Scaffold(
-      body: DefaultTabController(
-        length: _tabs.length,
-        child: NestedScrollView(
-          physics: BouncingScrollPhysics(),
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                child: _buildSliverAppBar(innerBoxIsScrolled),
-              ),
-            ];
-          },
-          body: _buildTabBarView(),
+    return Hero(
+      tag: widget.event.title,
+      transitionOnUserGestures: true,
+      child: Scaffold(
+        body: DefaultTabController(
+          length: _tabs.length,
+          child: NestedScrollView(
+            physics: BouncingScrollPhysics(),
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  child: _buildSliverAppBar(innerBoxIsScrolled),
+                ),
+              ];
+            },
+            body: _buildTabBarView(),
+          ),
         ),
       ),
     );
