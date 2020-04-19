@@ -28,8 +28,8 @@ final List<Color> keyHighlightCardColors = [
 ];
 
 final Map<String, Color> speakerCardColor = {
-  'expanded': Color(0xFFCFD1D3),
-  'collapsed': Color(0xFF6876EB)
+  'expanded': Color(0xFF6876EB),
+  'collapsed': Color(0xFFFFFFFF)
 };
 
 final LinearGradient event1 = LinearGradient(
