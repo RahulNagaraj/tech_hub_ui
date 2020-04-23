@@ -6,6 +6,7 @@ import '../models/event.dart';
 import '../styles/colors.dart';
 import '../widgets/about_section.dart';
 import '../widgets/speakers_list.dart';
+import '../widgets/survey_section.dart';
 
 class EventDetailsPage extends StatefulWidget {
   final Event event;
@@ -184,14 +185,12 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               event: widget.event,
             );
           } else if (name == _tabs[1]) {
-            // TODO: Replace with Speakers list section
             return SpeakersList(
               name: name,
               event: widget.event,
             );
           } else if (name == _tabs[2]) {
-            // TODO: Replace with Survey section
-            return AboutSection(
+            return SurveySection(
               name: name,
               event: widget.event,
             );
