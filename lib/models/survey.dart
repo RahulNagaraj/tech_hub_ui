@@ -130,9 +130,9 @@ class Survey {
 }
 
 final List<ListOption> _listOptions = List.generate(
-    2,
+    4,
     (int index) =>
-        new ListOption(label: 'Label $index', value: 'Value $index'));
+        new ListOption(label: 'Label ${index + 1}', value: 'Value $index'));
 
 final ListRule _listRule =
     new ListRule(options: _listOptions, showAvatar: false);
