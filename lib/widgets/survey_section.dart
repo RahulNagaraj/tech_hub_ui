@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import './ensure_visible_when_focused.dart';
 import '../models/event.dart';
 import '../models/survey.dart';
 import '../widgets/question_card.dart';
@@ -18,10 +19,14 @@ class SurveySection extends StatefulWidget {
 }
 
 class _SurveySectionState extends State<SurveySection>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   Survey _survey = survey;
   double _currentPage;
   PageController _controller;
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  FocusNode _focusNode = FocusNode();
+  static final TextEditingController _textEditingController =
+      new TextEditingController();
 
   @override
   void initState() {
@@ -37,6 +42,24 @@ class _SurveySectionState extends State<SurveySection>
         _currentPage = _controller.page;
       });
     });
+
+    _focusNode.addListener(_focusNodeListener);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.removeListener(_focusNodeListener);
+
+    super.dispose();
+  }
+
+  Future<Null> _focusNodeListener() async {
+    if (_focusNode.hasFocus) {
+      print('TextField got the focus');
+    } else {
+      print('TextField lost the focus');
+    }
   }
 
   void _onPreviousQuestionTap(int questionIndex) {
@@ -59,11 +82,6 @@ class _SurveySectionState extends State<SurveySection>
       ),
       curve: Curves.easeIn,
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   Widget _buildQuestionSection(double deviceHeight) {
@@ -89,7 +107,7 @@ class _SurveySectionState extends State<SurveySection>
     );
   }
 
-  List<Widget> _buildListOptions(int questionIndex, double deviceWidth) {
+  Widget _buildListOptions(int questionIndex, double deviceWidth) {
     List<Widget> _listOptions = new List();
     _listOptions =
         _survey.questions[questionIndex].rules.listRule.options.map((option) {
@@ -135,7 +153,86 @@ class _SurveySectionState extends State<SurveySection>
         ),
       );
     }).toList();
-    return _listOptions;
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: _listOptions,
+    );
+  }
+
+  Widget _buildInputOptions(BuildContext context, int questionIndex) {
+    Question _question = _survey.questions[questionIndex];
+    final String hintText = _question.rules.inputRule.label;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                EnsureVisibleWhenFocused(
+                  focusNode: _focusNode,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: hintText,
+                      hintStyle: Theme.of(context).textTheme.subhead.copyWith(
+                            color: Colors.black.withOpacity(0.6),
+                          ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF57B1DA),
+                          width: 3.0,
+                        ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black.withOpacity(0.6),
+                          width: 3.0,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
+                    ),
+                    focusNode: _focusNode,
+                    controller: _textEditingController,
+                    keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.sentences,
+                    autofocus: true,
+                    cursorColor: Color(0xFF57B1DA),
+                    cursorWidth: 3.0,
+                    onChanged: (value) {
+                      // TODO: Perform logic to update value
+                      print(value);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOptions(BuildContext context, double deviceWidth) {
+    InputType _inputType =
+        _survey.questions[_currentPage.floor()].rules.inputType;
+    switch (_inputType) {
+      case InputType.list:
+        return _buildListOptions(_currentPage.floor(), deviceWidth);
+      case InputType.rating:
+        return Container();
+      case InputType.input:
+        return InkWell(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: _buildInputOptions(context, _currentPage.floor()),
+        );
+      default:
+        return Container();
+    }
   }
 
   @override
@@ -169,11 +266,7 @@ class _SurveySectionState extends State<SurveySection>
                           height: _deviceHeight * 0.6,
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: _buildListOptions(
-                                  _currentPage.floor(), _deviceWidth),
-                            ),
+                            child: _buildOptions(context, _deviceWidth),
                           ),
                         ),
                       ],

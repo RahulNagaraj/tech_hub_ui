@@ -26,12 +26,12 @@ class ListOption {
   final String infoText;
 
   ListOption({
-    this.label,
-    this.value,
-    this.subTitle,
-    this.avatar,
-    this.infoIcon,
-    this.infoText,
+    @required this.label,
+    @required this.value,
+    this.subTitle: '',
+    this.avatar: '',
+    this.infoIcon: false,
+    this.infoText: '',
   });
 }
 
@@ -41,9 +41,9 @@ class RatingOption {
   final String infoText;
 
   RatingOption({
-    this.label,
-    this.infoIcon,
-    this.infoText,
+    @required this.label,
+    this.infoIcon: false,
+    this.infoText: '',
   });
 }
 
@@ -58,14 +58,14 @@ class ListRule {
 }
 
 class RatingRule {
-  final List<RatingOption> options;
+  final RatingOption options;
   final int scale;
   final String icon;
 
   RatingRule({
-    this.options,
-    this.scale,
-    this.icon,
+    @required this.options,
+    this.scale: 5,
+    this.icon: 'star',
   });
 }
 
@@ -129,36 +129,58 @@ class Survey {
   });
 }
 
-final List<ListOption> _listOptions = List.generate(
+final List<ListOption> _listOptions1 = List.generate(
     4,
     (int index) =>
         new ListOption(label: 'Label ${index + 1}', value: 'Value $index'));
 
-final ListRule _listRule =
-    new ListRule(options: _listOptions, showAvatar: false);
+final List<ListOption> _listOptions2 = List.generate(
+    3,
+    (int index) =>
+        new ListOption(label: 'Label ${index + 1}', value: 'Value $index'));
 
-final Rule _rule = new Rule(inputType: InputType.list, listRule: _listRule);
+final RatingOption _ratingOption = new RatingOption(label: 'Rate your answer');
+
+final ListRule _listRule1 =
+    new ListRule(options: _listOptions1, showAvatar: false);
+
+final ListRule _listRule2 =
+    new ListRule(options: _listOptions2, showAvatar: true);
+
+final InputRule _inputRule = new InputRule(
+    type: InputRuleType.text, label: 'Your answer', name: 'question3');
+
+final RatingRule _ratingRule = new RatingRule(options: _ratingOption);
+
+final Rule _rule1 = new Rule(inputType: InputType.list, listRule: _listRule1);
+
+final Rule _rule2 = new Rule(inputType: InputType.list, listRule: _listRule2);
+
+final Rule _rule3 = new Rule(inputType: InputType.input, inputRule: _inputRule);
+
+final Rule _rule4 =
+    new Rule(inputType: InputType.rating, ratingRule: _ratingRule);
 
 final List<Question> _questions = [
   new Question(
     title: 'Which Painter also designed a flying machine?',
     name: 'question1',
-    rules: _rule,
+    rules: _rule1,
   ),
   new Question(
     title: 'When did the post mordern art history begin?',
     name: 'question2',
-    rules: _rule,
+    rules: _rule2,
   ),
   new Question(
     title: 'Name the artist that cut off part of his ear',
     name: 'question3',
-    rules: _rule,
+    rules: _rule3,
   ),
   new Question(
     title: 'Which artist was known for drip painting?',
     name: 'question4',
-    rules: _rule,
+    rules: _rule4,
   )
 ];
 

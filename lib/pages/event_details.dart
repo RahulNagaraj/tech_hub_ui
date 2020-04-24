@@ -204,6 +204,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
       tag: widget.event.title,
       transitionOnUserGestures: true,
       child: Scaffold(
+        resizeToAvoidBottomPadding: true,
         body: DefaultTabController(
           length: _tabs.length,
           child: NestedScrollView(
