@@ -4,6 +4,7 @@ import './ensure_visible_when_focused.dart';
 import '../models/event.dart';
 import '../models/survey.dart';
 import '../widgets/question_card.dart';
+import '../widgets/slider_widget.dart';
 
 class SurveySection extends StatefulWidget {
   final Event event;
@@ -119,7 +120,16 @@ class _SurveySectionState extends State<SurveySection>
             width: deviceWidth - 80,
             height: 60,
             decoration: BoxDecoration(
-              color: Color(0xFF2157FF),
+              gradient: new LinearGradient(
+                colors: [
+                  const Color(0xFF00c6ff),
+                  const Color(0xFF0072ff),
+                ],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1.0, 1.00),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp,
+              ),
               border: Border(
                 left: BorderSide(
                   width: 4.0,
@@ -178,17 +188,17 @@ class _SurveySectionState extends State<SurveySection>
                     decoration: InputDecoration(
                       hintText: hintText,
                       hintStyle: Theme.of(context).textTheme.subhead.copyWith(
-                            color: Colors.black.withOpacity(0.6),
+                            color: Colors.black.withOpacity(0.7),
                           ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: Color(0xFF57B1DA),
+                          color: Color(0xFF00c6ff),
                           width: 3.0,
                         ),
                       ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: Colors.black.withOpacity(0.6),
+                          color: Colors.black.withOpacity(0.7),
                           width: 3.0,
                         ),
                       ),
@@ -198,9 +208,11 @@ class _SurveySectionState extends State<SurveySection>
                     controller: _textEditingController,
                     keyboardType: TextInputType.text,
                     textCapitalization: TextCapitalization.sentences,
-                    autofocus: true,
-                    cursorColor: Color(0xFF57B1DA),
+                    cursorColor: Color(0xFF00c6ff),
                     cursorWidth: 3.0,
+                    style: Theme.of(context).textTheme.subhead.copyWith(
+                          color: Colors.black.withOpacity(0.7),
+                        ),
                     onChanged: (value) {
                       // TODO: Perform logic to update value
                       print(value);
@@ -215,6 +227,20 @@ class _SurveySectionState extends State<SurveySection>
     );
   }
 
+  Widget _buildRatingOptions(BuildContext context, int questionIndex) {
+    int max = _survey.questions[questionIndex].rules.ratingRule.scale;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        SliderWidget(
+          max: max,
+          min: 0,
+          fullWidth: true,
+        ),
+      ],
+    );
+  }
+
   Widget _buildOptions(BuildContext context, double deviceWidth) {
     InputType _inputType =
         _survey.questions[_currentPage.floor()].rules.inputType;
@@ -222,7 +248,7 @@ class _SurveySectionState extends State<SurveySection>
       case InputType.list:
         return _buildListOptions(_currentPage.floor(), deviceWidth);
       case InputType.rating:
-        return Container();
+        return _buildRatingOptions(context, _currentPage.floor());
       case InputType.input:
         return InkWell(
           onTap: () {
@@ -261,7 +287,7 @@ class _SurveySectionState extends State<SurveySection>
                       children: <Widget>[
                         _buildQuestionSection(_deviceHeight),
                         Container(
-                          color: Color(0xFF1047FF),
+                          color: Color(0xFFEAEEF8),
                           width: _deviceWidth,
                           height: _deviceHeight * 0.6,
                           child: Padding(
