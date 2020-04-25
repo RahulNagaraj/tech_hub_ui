@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import './ensure_visible_when_focused.dart';
 import '../models/event.dart';
 import '../models/survey.dart';
 import '../widgets/question_card.dart';
-import '../widgets/slider_widget.dart';
+import '../widgets/survey_input.dart';
+import '../widgets/survey_list.dart';
+import '../widgets/survey_rating.dart';
 
 class SurveySection extends StatefulWidget {
   final Event event;
@@ -24,10 +25,6 @@ class _SurveySectionState extends State<SurveySection>
   Survey _survey = survey;
   double _currentPage;
   PageController _controller;
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  FocusNode _focusNode = FocusNode();
-  static final TextEditingController _textEditingController =
-      new TextEditingController();
 
   @override
   void initState() {
@@ -43,24 +40,12 @@ class _SurveySectionState extends State<SurveySection>
         _currentPage = _controller.page;
       });
     });
-
-    _focusNode.addListener(_focusNodeListener);
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _focusNode.removeListener(_focusNodeListener);
-
     super.dispose();
-  }
-
-  Future<Null> _focusNodeListener() async {
-    if (_focusNode.hasFocus) {
-      print('TextField got the focus');
-    } else {
-      print('TextField lost the focus');
-    }
   }
 
   void _onPreviousQuestionTap(int questionIndex) {
@@ -108,154 +93,18 @@ class _SurveySectionState extends State<SurveySection>
     );
   }
 
-  Widget _buildListOptions(int questionIndex, double deviceWidth) {
-    List<Widget> _listOptions = new List();
-    _listOptions =
-        _survey.questions[questionIndex].rules.listRule.options.map((option) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Material(
-          elevation: 2.0,
-          child: Container(
-            width: deviceWidth - 80,
-            height: 60,
-            decoration: BoxDecoration(
-              gradient: new LinearGradient(
-                colors: [
-                  const Color(0xFF00c6ff),
-                  const Color(0xFF0072ff),
-                ],
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(1.0, 1.00),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp,
-              ),
-              border: Border(
-                left: BorderSide(
-                  width: 4.0,
-                  color: Color(0xFFFCFCFF),
-                ),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0,
-                    ),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        option.label,
-                        softWrap: true,
-                        style: Theme.of(context).textTheme.subtitle.copyWith(
-                              color: Color(0xFFFCFCFF),
-                            ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }).toList();
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: _listOptions,
-    );
-  }
-
-  Widget _buildInputOptions(BuildContext context, int questionIndex) {
-    Question _question = _survey.questions[questionIndex];
-    final String hintText = _question.rules.inputRule.label;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                EnsureVisibleWhenFocused(
-                  focusNode: _focusNode,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      hintText: hintText,
-                      hintStyle: Theme.of(context).textTheme.subhead.copyWith(
-                            color: Colors.black.withOpacity(0.7),
-                          ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF00c6ff),
-                          width: 3.0,
-                        ),
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black.withOpacity(0.7),
-                          width: 3.0,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
-                    ),
-                    focusNode: _focusNode,
-                    controller: _textEditingController,
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.sentences,
-                    cursorColor: Color(0xFF00c6ff),
-                    cursorWidth: 3.0,
-                    style: Theme.of(context).textTheme.subhead.copyWith(
-                          color: Colors.black.withOpacity(0.7),
-                        ),
-                    onChanged: (value) {
-                      // TODO: Perform logic to update value
-                      print(value);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRatingOptions(BuildContext context, int questionIndex) {
-    int max = _survey.questions[questionIndex].rules.ratingRule.scale;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        SliderWidget(
-          max: max,
-          min: 0,
-          fullWidth: true,
-        ),
-      ],
-    );
-  }
-
   Widget _buildOptions(BuildContext context, double deviceWidth) {
-    InputType _inputType =
-        _survey.questions[_currentPage.floor()].rules.inputType;
+    int _selectedQuestion = _currentPage.floor();
+    InputType _inputType = _survey.questions[_selectedQuestion].rules.inputType;
+    Question _question = _survey.questions.elementAt(_selectedQuestion);
+
     switch (_inputType) {
       case InputType.list:
-        return _buildListOptions(_currentPage.floor(), deviceWidth);
+        return SurveyList(question: _question);
       case InputType.rating:
-        return _buildRatingOptions(context, _currentPage.floor());
+        return SurveyRating(question: _question);
       case InputType.input:
-        return InkWell(
-          onTap: () {
-            FocusScope.of(context).requestFocus(FocusNode());
-          },
-          child: _buildInputOptions(context, _currentPage.floor()),
-        );
+        return SurveyInput(question: _question);
       default:
         return Container();
     }

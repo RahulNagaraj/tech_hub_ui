@@ -87,13 +87,13 @@ class _SliderWidgetState extends State<SliderWidget> {
                     inactiveTickMarkColor: Colors.white.withOpacity(.7),
                   ),
                   child: Slider(
-                      value: _value,
-                      onChanged: (double value) {
-                        print(value);
-                        setState(() {
-                          _value = value;
-                        });
-                      }),
+                    value: _value,
+                    onChanged: (double value) {
+                      setState(() {
+                        _value = value;
+                      });
+                    },
+                  ),
                 ),
               ),
             ),

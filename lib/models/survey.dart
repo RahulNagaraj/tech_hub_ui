@@ -87,15 +87,15 @@ class InputRule {
 
 class Rule {
   final InputType inputType;
-  final ListRule listRule;
-  final RatingRule ratingRule;
-  final InputRule inputRule;
+  final ListRule listRules;
+  final RatingRule ratingRules;
+  final InputRule inputRules;
 
   Rule({
     @required this.inputType,
-    this.listRule,
-    this.ratingRule,
-    this.inputRule,
+    this.listRules,
+    this.ratingRules,
+    this.inputRules,
   });
 }
 
@@ -152,14 +152,15 @@ final InputRule _inputRule = new InputRule(
 
 final RatingRule _ratingRule = new RatingRule(options: _ratingOption);
 
-final Rule _rule1 = new Rule(inputType: InputType.list, listRule: _listRule1);
+final Rule _rule1 = new Rule(inputType: InputType.list, listRules: _listRule1);
 
-final Rule _rule2 = new Rule(inputType: InputType.list, listRule: _listRule2);
+final Rule _rule2 = new Rule(inputType: InputType.list, listRules: _listRule2);
 
-final Rule _rule3 = new Rule(inputType: InputType.input, inputRule: _inputRule);
+final Rule _rule3 =
+    new Rule(inputType: InputType.input, inputRules: _inputRule);
 
 final Rule _rule4 =
-    new Rule(inputType: InputType.rating, ratingRule: _ratingRule);
+    new Rule(inputType: InputType.rating, ratingRules: _ratingRule);
 
 final List<Question> _questions = [
   new Question(
